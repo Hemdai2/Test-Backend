@@ -1,2 +1,5 @@
 django
 psycopg2-binary==2.9.7
+pytest
+pytest-django
+pytest-factoryboy
