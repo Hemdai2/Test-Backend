@@ -44,3 +44,69 @@ def test_order_creation_success():
     )
     assert response.status_code == 201
     assert response.json()["total_price"] == 4
+
+
+@pytest.mark.django_db
+def test_order_creation_with_mix_flavors_success():
+    "Test pour créer un order avec plusieurs types de boules"
+    client = APIClient()
+    chocolate = FlavorFactory(name="Chocolate")
+    vanilla = FlavorFactory(name="Vanilla")
+    TubFactory(flavor=chocolate)
+    TubFactory(flavor=vanilla)
+
+    order_data = {
+        "comments": "Test",
+        "scoops": [
+            {"flavor": chocolate.id, "quantity": 2},
+            {"flavor": vanilla.id, "quantity": 2},
+        ],
+    }
+
+    response = client.post(
+        "/api/glace/create-order/", data=order_data, content_type="application/json"
+    )
+    assert response.status_code == 201
+    assert response.json()["total_price"] == 8
+
+
+@pytest.mark.django_db
+def test_order_creation_with_mix_flavors_one_stock_out_fail():
+    "Test pour créer un order avec plusieurs types de boules et un stockage insuffisant"
+    client = APIClient()
+    chocolate = FlavorFactory(name="Chocolate")
+    vanilla = FlavorFactory(name="Vanilla")
+    TubFactory(flavor=chocolate)
+    TubFactory(flavor=vanilla, scoops_left=5)
+
+    order_data = {
+        "comments": "Test",
+        "scoops": [
+            {"flavor": chocolate.id, "quantity": 2},
+            {"flavor": vanilla.id, "quantity": 6},
+        ],
+    }
+
+    response = client.post(
+        "/api/glace/create-order/", data=order_data, content_type="application/json"
+    )
+    print(response.json())
+    assert response.status_code == 400
+    print(response.json(), "response.json()")
+    assert (
+        response.json()["error"]
+        == "Il ne reste plus assez de boules pour Vanilla. Il ne reste que 5."
+    )
+
+
+@pytest.mark.django_db
+def test_refil_tub_success():
+    client = APIClient()
+    cherry = FlavorFactory(name="Cherry")
+    TubFactory(flavor=cherry, scoops_left=5)
+    response = client.post(
+        f"/api/glace/create-order/refill-tub/{cherry.id}/",
+        content_type="application/json",
+    )
+    assert response.status_code == 200
+    assert response.json()["message"] == "Tub for Cherry has been refilled."
