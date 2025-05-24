@@ -37,3 +37,131 @@ Un utilisateur a le choix du nombre de boule et des parfums.
 - [ ] Envoie-nous le lien et dis-nous approximativement combien de temps tu as passé sur ce travail.
 
 ##############################################################################################################################
+
+# 🍦 Plateforme de Commande de Glaces
+
+Une application web full-stack agréable pour commander des glaces personnalisées en ligne — développée avec **Django REST Framework** et **Next.js**.
+
+- 📦 Backend : Django + DRF + PostgreSQL
+- 🖥️ Frontend : Next.js + Tailwind CSS
+- 🔐 Authentification : Connexion administrateur via token
+- 🧾 Fonctionnalités : Création de commande, visualisation, tableau de bord admin
+
+---
+
+## ✨ Fonctionnalités
+
+- ✅ Créer des commandes avec sélection de parfums et quantités
+- ✅ Visualiser les commandes avec prix total et images
+- ✅ Tableau de bord administrateur avec commandes récentes
+- ✅ Authentification basée sur des tokens pour les administrateurs
+- ✅ Interface utilisateur responsive et esthétique
+- ✅ Configuration Docker pour le développement et la production
+
+---
+
+## 🛠 Technologies Utilisées
+
+| Côté              | Stack                             |
+| ----------------- | --------------------------------- |
+| Frontend          | Next.js, TypeScript, Tailwind CSS |
+| Backend           | Django, Django REST Framework     |
+| Base de données   | PostgreSQL                        |
+| Test              | Pytest (TDD-Backend)              |
+| Authentification  | Token DRF                         |
+| Déploiement       | Docker                            |
+| API-Documentation | Swagger                           |
+
+---
+
+## 📸 Captures d'écran
+
+### Open API
+
+![Project Screenshot](project_snaps/swagger.png)
+
+### Admin Login
+
+![Project Screenshot](project_snaps/admin_login.png)
+
+### Create Order
+
+![Project Screenshot](project_snaps/create_order.png)
+
+### Current Status
+
+![Project Screenshot](project_snaps/current_status.png)
+
+### Order-details
+
+![Project Screenshot](project_snaps/order-details.png)
+
+### pytest
+
+![Project Screenshot](project_snaps/pytest.png)
+
+### Django Signal message post Save pour le Notification
+
+![Project Screenshot](project_snaps/signal_message.png)
+
+### 🚀 Page de commande
+
+L'utilisateur peut choisir les parfums et les quantités, puis passer la commande.
+
+### 📜 Détails de la commande
+
+Affiche les images, les boules sélectionnées, et le prix total.
+
+### 🛠 Tableau de bord admin
+
+Liste des commandes récentes avec détails et liens.
+
+---
+
+## 📦 Structure du Projet
+
+├── backend/ # Backend Django
+│ ├── manage.py
+│ ├── backend/ # Application principale
+│ └── entrypoint.sh
+├── frontend/ # Frontend Next.js
+│ ├── app/ # Pages et composants
+│ └── public/images/ # Images des parfums
+├── docker-compose.yml
+└── README.md
+
+---
+
+## 🚀 Démarrage Rapide
+
+### 🔧 Configuration Backend
+
+1. **Cloner le dépôt :**
+   ```bash
+   git clone https://github.com/NaloProject/Test-Backend.git
+   cd glace-app
+   ```
+
+Les administrateurs se connectent via un système d’authentification par token.
+
+Ajouter le token dans les en-têtes des requêtes API :
+
+Authorization: Token <votre_token_ici>
+
+📦 Déploiement avec Docker
+
+# Construire et lancer les conteneurs
+
+docker-compose up --build
+
+# Arrêter
+
+docker-compose down
+
+📬 Endpoints API
+| Méthode | Endpoint | Description |
+| ------- | ------------------ | ----------------------------- |
+| GET | /api/flavors/ | Liste des parfums disponibles |
+| POST | /api/create-order/ | Créer une commande |
+| GET | /api/order/<code>/ | Détail d’une commande |
+| POST | /api/token/ | Connexion admin |
