@@ -42,3 +42,11 @@ class OrderCreateSerializer(serializers.ModelSerializer):
             OrderItem.objects.create(order=order, flavor=flavor, quantity=quantity)
 
         return order
+
+
+class OrderReadSerializer(serializers.ModelSerializer):
+    scoops = OrderItemReadSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Order
+        fields = ["order_code", "total_price", "scoops"]

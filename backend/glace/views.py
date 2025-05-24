@@ -7,9 +7,15 @@ from rest_framework.decorators import api_view
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 
-from .models import Tub
+from .models import Tub, Flavor, Order
 
-from .serializers import OrderCreateSerializer, TubSerializer
+from .serializers import (
+    OrderCreateSerializer,
+    TubSerializer,
+    FlavorSerializer,
+    OrderItemReadSerializer,
+    OrderReadSerializer,
+)
 
 # Create your views here.
 
@@ -48,7 +54,7 @@ def refill_tub(request, tub_id):
         tub = Tub.objects.get(pk=tub_id)
         if not tub.scoops_left < 40:
             return Response(
-                {"message": "Tub is already full, can't refil this time"}, status=400
+                {"message": "Le pot est plein, il ne peut pas être rempli"}, status=400
             )
 
         needed_scoops = tub.capacity - tub.scoops_left
@@ -64,4 +70,35 @@ def refill_tub(request, tub_id):
         return Response(response_data)
 
     except Tub.DoesNotExist:
-        return Response({"error": "Tub not found"}, status=404)
+        return Response({"error": "le pot n'existe pas"}, status=404)
+
+
+@api_view(["GET"])
+def get_flavors(request):
+    flavors = Flavor.objects.all()
+    serializer = FlavorSerializer(flavors, many=True)
+    return Response(serializer.data)
+
+
+@api_view(["GET"])
+def get_order_details(request, order_id):
+    try:
+        order = Order.objects.get(order_code=order_id)
+        serializer = OrderItemReadSerializer(order)
+        return Response(serializer.data)
+    except Order.DoesNotExist:
+        return Response({"error": "Order not found"}, status=404)
+
+
+@api_view(["GET"])
+def get_all_orders(request):
+    orders = Order.objects.all()
+    serializer = OrderReadSerializer(orders, many=True)
+    return Response(serializer.data)
+
+
+@api_view(["GET"])
+def get_all_tubs(request):
+    tubs = Tub.objects.all()
+    serializer = TubSerializer(tubs, many=True)
+    return Response(serializer.data)

@@ -119,3 +119,21 @@ def test_refil_tub_success():
     assert response.status_code == 200
 
     assert response.json() == response_data
+
+
+@pytest.mark.django_db
+def test_refil_fail_on_full_of_stock():
+    client = APIClient()
+    cherry = FlavorFactory(name="Cherry")
+    TubFactory(flavor=cherry, scoops_left=40)
+    response = client.post(
+        f"/api/glace/refill-tub/{cherry.id}/",
+        content_type="application/json",
+    )
+    response_data = {
+        "message": "Le pot est plein, il ne peut pas être rempli",
+    }
+    print(response.json())
+    assert response.status_code == 400
+
+    assert response.json() == response_data
