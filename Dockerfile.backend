@@ -1,0 +1,45 @@
+ARG ENVIRONMENT=dev
+
+FROM python:3.11-slim AS base
+
+# Set environment variables
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+ENV PIP_DISABLE_PIP_VERSION_CHECK 1
+ENV PIP_NO_CACHE_DIR 1
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    gcc \
+    python3-dev \
+    libpq-dev \
+    netcat-openbsd \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set working directory
+WORKDIR /code/backend
+
+# Copy and install dependencies
+COPY backend/requirements.txt .
+RUN pip install --upgrade pip
+RUN pip install -r requirements.txt
+
+# Copy the rest of the backend source code
+COPY backend/ .
+
+# Copy and set permissions for entrypoint script
+COPY backend/entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+# The final stage
+FROM base AS dev
+
+# Set the working directory again in this stage
+WORKDIR /code/backend
+
+ENTRYPOINT ["/entrypoint.sh"]
+
+
+
+# Run the server
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]

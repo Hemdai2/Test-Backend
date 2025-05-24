@@ -1,0 +1,46 @@
+version: "3.9"
+
+services:
+  db_nalo_glacier:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    ports:
+      - "5432:5432"
+    networks:
+      - ng-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend_nalo_glacier:
+    container_name: backend_nalo_glacier
+    env_file:
+      - .env
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+      args:
+        - ENVIRONMENT=${ENVIRONMENT}
+    volumes:
+      - ./backend:/code/backend
+      - /code/backend/static
+    ports:
+      - "8000:8000"
+    depends_on:
+      db_nalo_glacier:
+        condition: service_healthy
+    networks:
+      - ng-network
+
+volumes:
+  postgres_data:
+
+networks:
+  ng-network:
