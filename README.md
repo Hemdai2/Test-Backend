@@ -139,8 +139,27 @@ Liste des commandes récentes avec détails et liens.
 1. **Cloner le dépôt :**
    ```bash
    git clone https://github.com/NaloProject/Test-Backend.git
-   cd glace-app
+   cd Test-Backend
    ```
+
+### 🔧 Configuration de l’environnement
+
+À la racine du projet, créez l’un des fichiers suivants :
+
+- `.env` – pour une utilisation générale
+- `.env.local` – pour le développement local
+- `.env.production` – pour la production
+
+### Exemple de fichier `.env` :
+
+```env
+ENVIRONMENT=dev
+CREATE_SUPERUSER=true
+DJANGO_SUPERUSER_USERNAME=admin
+DJANGO_SUPERUSER_PASSWORD=admin123
+DJANGO_SUPERUSER_EMAIL=admin@example.com
+
+n'oubliez pas de vérifier votre courrier électronique ou de me demander ce fichier car ce fichier peut ne pas être disponible sur github.
 
 Les administrateurs se connectent via un système d’authentification par token.
 
@@ -161,7 +180,10 @@ docker-compose down
 📬 Endpoints API
 | Méthode | Endpoint | Description |
 | ------- | ------------------ | ----------------------------- |
-| GET | /api/flavors/ | Liste des parfums disponibles |
-| POST | /api/create-order/ | Créer une commande |
-| GET | /api/order/<code>/ | Détail d’une commande |
+| GET | /api/glace/flavors/ | Liste des parfums disponibles |
+| POST | /api/glace/create-order/ | Créer une commande |
+| GET | /api/glace/order-details/<uniqie_id>/ | Détail d’une commande |
 | POST | /api/token/ | Connexion admin |
+| POST | /api/glace/tub/refil/{tub_id} | glace_tub_refill |
+| GET | /api/glace/tubs/ | glace_tub_list |
+```
