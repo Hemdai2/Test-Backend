@@ -81,10 +81,10 @@ def get_flavors(request):
 
 
 @api_view(["GET"])
-def get_order_details(request, order_id):
+def get_order_details(request, uniqie_id):
     try:
-        order = Order.objects.get(order_code=order_id)
-        serializer = OrderItemReadSerializer(order)
+        order = Order.objects.get(order_code=uniqie_id)
+        serializer = OrderReadSerializer(order)
         return Response(serializer.data)
     except Order.DoesNotExist:
         return Response({"error": "Order not found"}, status=404)

@@ -15,5 +15,5 @@ urlpatterns = [
     path("tubs/", get_all_tubs, name="get_all_tubs"),
     path("orders/", get_all_orders, name="get_all_orders"),
     path("flavors/", get_flavors, name="get_flavors"),
-    path("order-details/<int:order_id>/", get_order_details, name="get_order_details"),
+    path("order-details/<str:uniqie_id>/", get_order_details, name="get_order_details"),
 ]
