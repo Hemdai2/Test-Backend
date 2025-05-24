@@ -11,17 +11,16 @@ export default function AdminLoginPage() {
 
   const handleLogin = async () => {
     try {
-      const res = await fetch(`localhost:8000/api/token/`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}api/token/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password }),
       });
-      alert(res);
       if (!res.ok) throw new Error('Invalid credentials');
 
       const data = await res.json();
       localStorage.setItem('token', data.access);
-      router.push('/admin');
+      router.push('/admin/dashboard');
     } catch (err: any) {
       setError(err.message || 'Login failed');
     }

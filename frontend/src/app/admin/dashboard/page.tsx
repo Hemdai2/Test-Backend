@@ -52,7 +52,13 @@ export default function AdminPage() {
   }, []);
 
   const handleRefill = async (tubId: number) => {
-    const res = await fetch(`${apiBase}tub/refill/${tubId}/`, { method: 'POST' });
+    const token = getToken();
+    if (!token) {
+      alert("You are not logged in");
+      return;
+    }
+    else {
+      const res = await fetch(`${apiBase}tub/refill/${tubId}/`, { method: 'POST', headers: { Authorization: `Bearer ${token}` } });
     if (res.ok) {
         const updated : RefillData = await res.json();
         
@@ -61,6 +67,14 @@ export default function AdminPage() {
       console.error(res.json());
       alert("Failed to refill");
     }
+      
+    }
+    
+  };
+
+  const getToken = () => {
+    const token = localStorage.getItem('token');
+    return token ? token : '';
   };
 
   return (
