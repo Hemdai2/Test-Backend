@@ -42,6 +42,12 @@ local_settings.py
 
 # VS Code
 .vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
 
 # MyPy
 .mypy_cache/
@@ -57,3 +63,24 @@ htmlcov/
 
 # macOS
 .DS_Store
+
+# Production cache
+.cache/
+Thumbs.db
+# TypeScript cache
+*.tsbuildinfo
+
+# Optional npm cache directory
+.npm
+
+# Next.js static optimization
+.next/cache/
+
+# Dependency directories
+node_modules/
+.pnp/
+.pnp.js
+
+# Next.js build output
+.next/
+out/

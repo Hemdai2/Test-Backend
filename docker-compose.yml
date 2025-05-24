@@ -39,6 +39,26 @@ services:
     networks:
       - ng-network
 
+  frontend_nalo_glacier:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    container_name: frontend_nalo_glacier
+    networks:
+      - ng-network
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+      - ./frontend:/app
+    env_file:
+      - .env.local
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    command: npm run dev
+
 volumes:
   postgres_data:
 
