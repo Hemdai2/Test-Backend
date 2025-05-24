@@ -3,6 +3,7 @@ __all__ = [
     "OrderCreateSerializer",
     "OrderItemReadSerializer",
     "OrderItemCreateSerializer",
+    "TubSerializer",
 ]
 from .flavor_serializer import FlavorSerializer
 from .order_serializer import (
@@ -10,3 +11,4 @@ from .order_serializer import (
     OrderItemCreateSerializer,
     OrderItemReadSerializer,
 )
+from .tub_serializer import TubSerializer

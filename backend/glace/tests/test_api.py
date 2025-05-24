@@ -105,8 +105,17 @@ def test_refil_tub_success():
     cherry = FlavorFactory(name="Cherry")
     TubFactory(flavor=cherry, scoops_left=5)
     response = client.post(
-        f"/api/glace/create-order/refill-tub/{cherry.id}/",
+        f"/api/glace/refill-tub/{cherry.id}/",
         content_type="application/json",
     )
+    response_data = {
+        "message": "Le pot de glace Cherry a été rempli.",
+        "data": {
+            "id": 7,
+            "flavor": {"id": 7, "name": "Cherry", "price": "2.00"},
+            "scoops_left": 40,
+        },
+    }
     assert response.status_code == 200
-    assert response.json()["message"] == "Tub for Cherry has been refilled."
+
+    assert response.json() == response_data

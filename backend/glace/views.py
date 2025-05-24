@@ -7,7 +7,9 @@ from rest_framework.decorators import api_view
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 
-from .serializers import OrderCreateSerializer
+from .models import Tub
+
+from .serializers import OrderCreateSerializer, TubSerializer
 
 # Create your views here.
 
@@ -38,3 +40,28 @@ def create_order(request):
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(["POST"])
+def refill_tub(request, tub_id):
+    try:
+        tub = Tub.objects.get(pk=tub_id)
+        if not tub.scoops_left < 40:
+            return Response(
+                {"message": "Tub is already full, can't refil this time"}, status=400
+            )
+
+        needed_scoops = tub.capacity - tub.scoops_left
+
+        print(
+            f"Tub for {tub.flavor.name} has {tub.scoops_left} left. now adding {needed_scoops} scoops (Email would be sent to admin)"
+        )
+        tub.refill(needed_scoops)
+        response_data = {
+            "message": f"Le pot de glace {tub.flavor.name} a été rempli.",
+            "data": TubSerializer(tub).data,
+        }
+        return Response(response_data)
+
+    except Tub.DoesNotExist:
+        return Response({"error": "Tub not found"}, status=404)
