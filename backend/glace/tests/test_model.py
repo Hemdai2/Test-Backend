@@ -27,5 +27,4 @@ def test_create_order():
     order = Order.objects.create()
     OrderItem.objects.create(order=order, flavor=vanilla, quantity=2)
     OrderItem.objects.create(order=order, flavor=chocolate, quantity=3)
-
     assert order.total_price() == 10
