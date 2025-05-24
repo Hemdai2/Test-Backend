@@ -26,9 +26,9 @@ from rest_framework_simplejwt.views import (
 
 schema_view = get_schema_view(
     openapi.Info(
-        title="Ice Cream Shop API",
+        title="Nalo Glacier API",
         default_version="v1",
-        description="API for managing ice cream orders and inventory",
+        description="API pour les automates de glaces de Nalo",
         terms_of_service="https://www.icecreamshopexample.com/terms/",
         contact=openapi.Contact(email="contact@icecreamshop.com"),
         license=openapi.License(name="BSD License"),

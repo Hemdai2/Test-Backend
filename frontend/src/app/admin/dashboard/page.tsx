@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 
 interface Flavor {
     name: string, price: string, id: number
@@ -114,32 +115,34 @@ export default function AdminPage() {
 
       {/* Orders Section */}
       <section>
-        <h2 className="text-2xl font-semibold mb-4 text-gray-700">🧾 Recent Orders</h2>
-        <div className="space-y-4">
-          {orders.map(order => (
-            <div
-              key={order.order_code}
-              className="bg-white p-4 rounded-xl shadow border"
-            >
-              <p className="font-bold text-indigo-600 mb-1">Order Code: {order.order_code}</p>
-              <p className="mb-2 text-gray-700">Total Price: <strong>€{order.total_price}</strong></p>
-              <div className="flex flex-wrap gap-4">
-                {order.scoops.map((item, idx) => (
-                  <div key={idx} className="flex flex-col items-center w-24">
-                    <img
-                      src={flavorImages[item.flavor.name] || '/images/default.png'}
-                      alt={item.flavor.name}
-                      className="w-16 h-16 rounded object-cover mb-1"
-                    />
-                    <p className="text-sm text-center">{item.flavor.name}</p>
-                    <p className="text-xs text-gray-500">{item.quantity} scoop{item.quantity > 1 ? 's' : ''}</p>
-                  </div>
-                ))}
-              </div>
+  <h2 className="text-2xl font-semibold mb-4 text-gray-700">🧾 Recent Orders</h2>
+  <div className="space-y-4">
+    {orders.map(order => (
+      <Link
+        key={order.order_code}
+        href={`/order/${order.order_code}`}
+        className="block bg-white p-4 rounded-xl shadow border hover:bg-gray-50 transition"
+      >
+        <p className="font-bold text-indigo-600 mb-1">Order Code: {order.order_code}</p>
+        <p className="mb-2 text-gray-700">Total Price: <strong>€{order.total_price}</strong></p>
+        <div className="flex flex-wrap gap-4">
+          {order.scoops.map((item, idx) => (
+            <div key={idx} className="flex flex-col items-center w-24">
+              <img
+                src={flavorImages[item.flavor.name] || '/images/default.png'}
+                alt={item.flavor.name}
+                className="w-16 h-16 rounded object-cover mb-1"
+              />
+              <p className="text-sm text-center">{item.flavor.name}</p>
+              <p className="text-xs text-gray-500">{item.quantity} scoop{item.quantity > 1 ? 's' : ''}</p>
             </div>
           ))}
         </div>
-      </section>
+      </Link>
+    ))}
+  </div>
+</section>
+
     </div>
   );
 }
