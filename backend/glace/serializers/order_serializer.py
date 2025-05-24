@@ -28,17 +28,24 @@ class OrderCreateSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         items_data = validated_data.pop("scoops")
+
+        # Pre-validate tub availability
+        for item_data in items_data:
+            flavor = item_data["flavor"]
+            if not hasattr(flavor, "tub"):
+                raise serializers.ValidationError(
+                    {"error": f"Le Flavor '{flavor.name}' n'a pas de pot."}
+                )
+
+        # All tubs valid, now create the order
         order = Order.objects.create(**validated_data)
 
         for item_data in items_data:
             flavor = item_data["flavor"]
             quantity = item_data["quantity"]
-
             tub = flavor.tub
 
-            # Décrémenter le nombre de boules disponibles
-            tub.consume_scoops(quantity)
-
+            tub.consume_scoops(quantity)  # Might also raise error on insufficient stock
             OrderItem.objects.create(order=order, flavor=flavor, quantity=quantity)
 
         return order
