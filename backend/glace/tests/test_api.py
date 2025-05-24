@@ -3,6 +3,7 @@ from rest_framework.test import APIClient
 from .factories import FlavorFactory, TubFactory
 from ..serializers import FlavorSerializer
 from ..models import Flavor, Tub
+from .conftest import auth_client
 
 
 @pytest.mark.django_db
@@ -100,11 +101,10 @@ def test_order_creation_with_mix_flavors_one_stock_out_fail():
 
 
 @pytest.mark.django_db
-def test_refil_tub_success():
-    client = APIClient()
+def test_refil_tub_success(auth_client):
     cherry = FlavorFactory(name="Cherry")
     TubFactory(flavor=cherry, scoops_left=5)
-    response = client.post(
+    response = auth_client.post(
         f"/api/glace/tub/refill/{cherry.id}/",
         content_type="application/json",
     )
@@ -122,11 +122,10 @@ def test_refil_tub_success():
 
 
 @pytest.mark.django_db
-def test_refil_fail_on_full_of_stock():
-    client = APIClient()
+def test_refil_fail_on_full_of_stock(auth_client):
     cherry = FlavorFactory(name="Cherry")
     TubFactory(flavor=cherry, scoops_left=40)
-    response = client.post(
+    response = auth_client.post(
         f"/api/glace/tub/refill/{cherry.id}/",
         content_type="application/json",
     )
