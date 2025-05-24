@@ -2,5 +2,8 @@ from django.apps import AppConfig
 
 
 class GlaceConfig(AppConfig):
-    default_auto_field = 'django.db.models.BigAutoField'
-    name = 'glace'
+    default_auto_field = "django.db.models.BigAutoField"
+    name = "glace"
+
+    def ready(self):
+        import glace.signals
