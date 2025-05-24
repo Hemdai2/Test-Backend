@@ -105,7 +105,7 @@ def test_refil_tub_success():
     cherry = FlavorFactory(name="Cherry")
     TubFactory(flavor=cherry, scoops_left=5)
     response = client.post(
-        f"/api/glace/refill-tub/{cherry.id}/",
+        f"/api/glace/tub/refill/{cherry.id}/",
         content_type="application/json",
     )
     response_data = {
@@ -127,7 +127,7 @@ def test_refil_fail_on_full_of_stock():
     cherry = FlavorFactory(name="Cherry")
     TubFactory(flavor=cherry, scoops_left=40)
     response = client.post(
-        f"/api/glace/refill-tub/{cherry.id}/",
+        f"/api/glace/tub/refill/{cherry.id}/",
         content_type="application/json",
     )
     response_data = {

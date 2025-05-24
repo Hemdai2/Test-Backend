@@ -45,7 +45,7 @@ class OrderCreateSerializer(serializers.ModelSerializer):
             quantity = item_data["quantity"]
             tub = flavor.tub
 
-            tub.consume_scoops(quantity)  # Might also raise error on insufficient stock
+            tub.consume_scoops(quantity)
             OrderItem.objects.create(order=order, flavor=flavor, quantity=quantity)
 
         return order

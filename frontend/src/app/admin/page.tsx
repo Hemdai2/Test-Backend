@@ -11,7 +11,10 @@ interface Tub {
   flavor: Flavor;
   scoops_left: number;
 }
-
+interface RefillData {
+    message: string;
+    data: Tub
+}
 interface OrderItem {
   flavor: Flavor;
   quantity: number;
@@ -49,10 +52,11 @@ export default function AdminPage() {
   }, []);
 
   const handleRefill = async (tubId: number) => {
-    const res = await fetch(`${apiBase}tub/refill-tub/${tubId}/`, { method: 'POST' });
+    const res = await fetch(`${apiBase}tub/refill/${tubId}/`, { method: 'POST' });
     if (res.ok) {
-      const updated = await res.json();
-      setTubs(prev => prev.map(t => (t.id === tubId ? updated : t)));
+        const updated : RefillData = await res.json();
+        
+      setTubs(prev => prev.map(t => (t.id === tubId ? updated.data : t)));
     } else {
       console.error(res.json());
       alert("Failed to refill");

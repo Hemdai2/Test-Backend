@@ -11,7 +11,7 @@ from .views import (
 
 urlpatterns = [
     path("create-order/", create_order, name="create_order"),
-    path("refill-tub/<int:tub_id>/", refill_tub, name="refill_tub"),
+    path("tub/refill/<int:tub_id>/", refill_tub, name="refill_tub"),
     path("tubs/", get_all_tubs, name="get_all_tubs"),
     path("orders/", get_all_orders, name="get_all_orders"),
     path("flavors/", get_flavors, name="get_flavors"),
