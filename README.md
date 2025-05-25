@@ -141,7 +141,7 @@ Liste des commandes récentes avec détails et liens.
 │ ├── glace/ # Application principale
 │ └── entrypoint.sh
 ├── frontend/ # Frontend Next.js
-│ ├── app/ # Pages et composants
+│ ├── src/app/ # Pages et composants
 │ └── public/
 │ └── images/ # Images des parfums
 ├── README.md
