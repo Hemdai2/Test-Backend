@@ -133,19 +133,21 @@ Liste des commandes récentes avec détails et liens.
 
 ## 📦 Structure du Projet
 
+.
 ├── backend/ # Backend Django
 │ ├── manage.py
-│ ├── backend
-│ ├── glace # Application principale
+│ ├── backend/ # Répertoire du projet Django
+│ ├── glace/ # Application principale
 │ └── entrypoint.sh
 ├── frontend/ # Frontend Next.js
 │ ├── app/ # Pages et composants
-│ └── public/images/ # Images des parfums
-└── README.md
-└── docker-compose.yml
-└── Dockerfile.backend
-└── Dockerfile.frontend
-└── .env
+│ └── public/
+│ └── images/ # Images des parfums
+├── README.md
+├── docker-compose.yml
+├── Dockerfile.backend
+├── Dockerfile.frontend
+├── .env
 └── .env.local
 
 ---
@@ -191,10 +193,8 @@ Authorization: Token <votre_token_ici>
 
 # Construire et lancer les conteneurs
 
-
-```bash
    docker-compose up --build
-````
+
 
 # Arrêter
 
@@ -210,13 +210,16 @@ docker-compose down
 | POST | /api/glace/tub/refil/{tub_id} | glace_tub_refill |
 | GET | /api/glace/tubs/ | glace_tub_list |
 
-````
+```
 
 # Solution supplémentaire
 
 Le fichier db.json est disponible et permet de tester les données sans les créer manuellement.
 Il suffit de faire
 
-```bash
+
    python manage.py loaddata db.json
+
+
+```
 ````

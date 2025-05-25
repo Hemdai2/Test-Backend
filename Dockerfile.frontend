@@ -1,6 +1,9 @@
 
-ARG ENVIRONMENT=dev
+
 FROM node:18-alpine
+ARG ENVIRONMENT=dev
+
+ENV ENVIRONMENT=${ENVIRONMENT}
 
 WORKDIR /app
 
@@ -12,8 +15,9 @@ RUN npm install
 # Copy rest of frontend project
 COPY frontend/ .
 
-RUN npm run build
-
 EXPOSE 3000
 
-CMD ["npm", "run", "dev"]
+RUN if [ "$ENVIRONMENT" = "prod" ]; then npm run build; fi
+
+# At runtime
+CMD ["sh", "-c", "if [ \"$ENVIRONMENT\" = 'prod' ]; then npx serve -s dist -l 80; else npm run dev; fi"]

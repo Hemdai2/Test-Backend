@@ -1,5 +1,3 @@
-ARG ENVIRONMENT=dev
-
 FROM python:3.11-slim AS base
 
 # Set environment variables
@@ -31,16 +29,8 @@ COPY backend/ .
 COPY backend/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
-# # The final stage
-# FROM base AS dev
-
 # Set the working directory again in this stage
 WORKDIR /code/backend
 
+# Run the entrypoint script and start the Django server from here 
 ENTRYPOINT ["/entrypoint.sh"]
-
-FROM base AS dev
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
-
-FROM base AS prod
-CMD ["gunicorn", "backend.wsgi:application", "--bind", "0.0.0.0:8000"]

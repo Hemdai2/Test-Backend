@@ -26,8 +26,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.backend
-      args:
-        - ENVIRONMENT=${ENVIRONMENT}
     volumes:
       - ./backend:/code/backend
       - /code/backend/static
@@ -43,6 +41,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.frontend
+      args:
+        - ENVIRONMENT=${ENVIRONMENT}
     container_name: frontend_nalo_glacier
     networks:
       - ng-network
@@ -64,3 +64,4 @@ volumes:
 
 networks:
   ng-network:
+    external: true
