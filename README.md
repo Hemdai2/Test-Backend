@@ -170,7 +170,7 @@ Liste des commandes récentes avec détails et liens.
 
 ### Exemple de fichier `.env` :
 
-```env
+````env
 ENVIRONMENT=dev
 CREATE_SUPERUSER=true
 DJANGO_SUPERUSER_USERNAME=admin
@@ -191,7 +191,10 @@ Authorization: Token <votre_token_ici>
 
 # Construire et lancer les conteneurs
 
-docker-compose up --build
+
+```bash
+   docker-compose up --build
+````
 
 # Arrêter
 
@@ -206,4 +209,14 @@ docker-compose down
 | POST | /api/token/ | Connexion admin |
 | POST | /api/glace/tub/refil/{tub_id} | glace_tub_refill |
 | GET | /api/glace/tubs/ | glace_tub_list |
-```
+
+````
+
+# Solution supplémentaire
+
+Le fichier db.json est disponible et permet de tester les données sans les créer manuellement.
+Il suffit de faire
+
+```bash
+   python manage.py loaddata db.json
+````

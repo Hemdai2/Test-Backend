@@ -30,4 +30,13 @@ echo "✅ superuser "$DJANGO_SU_NAME" created... successfully"
 fi
 
 echo "🚀 Completed entrypoint task..."
+
+if [ "$ENVIRONMENT" = "dev" ]; then
+  echo "🚀 Starting debug server..."
+  python manage.py runserver 0.0.0.0:8000
+else
+  echo "🚀 Starting production server..."
+  gunicorn backend.wsgi:application --bind 0.0.0.0:8000
+fi
+
 exec "$@"
