@@ -133,6 +133,7 @@ Liste des commandes récentes avec détails et liens.
 
 ## 📦 Structure du Projet
 
+```
 .
 ├── backend/ # Backend Django
 │ ├── manage.py
@@ -150,7 +151,7 @@ Liste des commandes récentes avec détails et liens.
 ├── .env
 └── .env.local
 
----
+```
 
 ## 🚀 Démarrage Rapide
 
