@@ -38,14 +38,14 @@ Un utilisateur a le choix du nombre de boule et des parfums.
 
 ##############################################################################################################################
 
-# 🍦 Plateforme de Commande de Glaces
+# 🍦 Plateforme de Commande de Glaces Project Solution
 
 Une application web full-stack agréable pour commander des glaces personnalisées en ligne — développée avec **Django REST Framework** et **Next.js**.
 
-- 📦 Backend : Django + DRF + PostgreSQL
+- 📦 Backend : TDD avec pytest + Django + DRF + PostgreSQL + Swagger
 - 🖥️ Frontend : Next.js + Tailwind CSS
 - 🔐 Authentification : Connexion administrateur via token
-- 🧾 Fonctionnalités : Création de commande, visualisation, tableau de bord admin
+- 🧾 Fonctionnalités : Création de commande, visualisation, tableau de bord admin, Remplisage, se connecter
 
 ---
 
@@ -78,15 +78,21 @@ Une application web full-stack agréable pour commander des glaces personnalisé
 
 ### Open API
 
+# Accès via :8000/swagger/
+
 ![Project Screenshot](project_snaps/swagger.png)
-
-### Admin Login
-
-![Project Screenshot](project_snaps/admin_login.png)
 
 ### Create Order
 
+# Accès via :3000/
+
 ![Project Screenshot](project_snaps/create_order.png)
+
+### Admin Login
+
+# Accès via :3000/admin/login
+
+![Project Screenshot](project_snaps/admin_login.png)
 
 ### Current Status
 
@@ -94,15 +100,22 @@ Une application web full-stack agréable pour commander des glaces personnalisé
 
 ### Order-details
 
+# Accès via :3000/order/unique-id-uuid
+
 ![Project Screenshot](project_snaps/order-details.png)
 
 ### pytest
 
 ![Project Screenshot](project_snaps/pytest.png)
 
+## comment exécuter le test ?
+
+Démarrez Docker, exécutez le script bash de votre conteneur backend (normalement, son nom est backend_nalo_glacier) et exécutez la commande pytest.
+
 ### Django Signal message post Save pour le Notification
 
 ![Project Screenshot](project_snaps/signal_message.png)
+Lors de la prise de commande, si la capacité du pot devient 0, Django signale l'exécution d'un message d'impression (Future fonction d'envoi d'email).
 
 ### 🚀 Page de commande
 
@@ -122,13 +135,18 @@ Liste des commandes récentes avec détails et liens.
 
 ├── backend/ # Backend Django
 │ ├── manage.py
-│ ├── backend/ # Application principale
+│ ├── backend
+│ ├── glace # Application principale
 │ └── entrypoint.sh
 ├── frontend/ # Frontend Next.js
 │ ├── app/ # Pages et composants
 │ └── public/images/ # Images des parfums
-├── docker-compose.yml
 └── README.md
+└── docker-compose.yml
+└── Dockerfile.backend
+└── Dockerfile.frontend
+└── .env
+└── .env.local
 
 ---
 
@@ -159,11 +177,13 @@ DJANGO_SUPERUSER_USERNAME=admin
 DJANGO_SUPERUSER_PASSWORD=admin123
 DJANGO_SUPERUSER_EMAIL=admin@example.com
 
-n'oubliez pas de vérifier votre courrier électronique ou de me demander ce fichier car ce fichier peut ne pas être disponible sur github.
+n'oubliez pas de vérifier votre Email ou de me demander ce fichier car ce fichier peut ne pas être disponible sur github.
 
 Les administrateurs se connectent via un système d’authentification par token.
 
 Ajouter le token dans les en-têtes des requêtes API :
+
+mais si vous accédez à partir du Web, il suffit de vous connecter pour que l'administrateur puisse remplir le pot de glace.
 
 Authorization: Token <votre_token_ici>
 
